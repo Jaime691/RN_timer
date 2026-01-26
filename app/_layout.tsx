@@ -1,3 +1,4 @@
+import { TimerProvider } from '@/app/context/TimerContext';
 import { globalStyles } from '@/styles/global-styles';
 import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
@@ -14,10 +15,12 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={globalStyles.background}>
-      <Slot />
+    <TimerProvider>
+      <View style={globalStyles.background}>
+        <Slot />
 
-      <StatusBar style="light" />
-    </View>
+        <StatusBar style="light" />
+      </View>
+    </TimerProvider>
   );
 }
