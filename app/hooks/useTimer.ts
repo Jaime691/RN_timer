@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
 import { TIMER_CONSTANTS } from '@/app/constants/TimerConstants';
+import { useCallback, useEffect, useState } from 'react';
 
-export const useTimer = (initialSeconds: number = 0) => {
+export const useTimer = (initialSeconds: number = 0, maxDuration?: number) => {
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isActive, setIsActive] = useState(false);
 
@@ -9,11 +9,19 @@ export const useTimer = (initialSeconds: number = 0) => {
     if (!isActive) return;
 
     const interval = setInterval(() => {
-      setSeconds((prev) => prev + 1);
+      setSeconds((prev) => {
+        const nextSeconds = prev + 1;
+        // Stop timer if max duration is reached
+        if (maxDuration && nextSeconds >= maxDuration) {
+          setIsActive(false);
+          return maxDuration;
+        }
+        return nextSeconds;
+      });
     }, TIMER_CONSTANTS.INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, [isActive]);
+  }, [isActive, maxDuration]);
 
   const toggleTimer = useCallback(() => {
     setIsActive((prev) => !prev);
