@@ -1,3 +1,4 @@
+import { TIMER_CONSTANTS } from '@/app/constants/TimerConstants';
 import { useTimer } from '@/app/hooks/useTimer';
 import { globalStyles } from '@/styles/global-styles';
 import { useMemo } from 'react';
@@ -7,30 +8,49 @@ import CircularProgress from './components/timer/CircularProgress';
 
 import './global.css';
 
-const POMODORO_DURATION = 0.5 * 60; // 25 minutes in seconds
-
 export default function Index() {
-  const { seconds, isActive, toggleTimer, resetTimer, formatTime } = useTimer(
-    0,
-    POMODORO_DURATION,
-  );
+  const { seconds, isActive, toggleTimer, resetTimer, formatTime, phase } =
+    useTimer(
+      0,
+      TIMER_CONSTANTS.POMODORO_DURATION,
+      TIMER_CONSTANTS.REST_DURATION,
+    );
 
   const displayTime = useMemo(() => formatTime(seconds), [seconds, formatTime]);
 
+  const currentDuration =
+    phase === 'work'
+      ? TIMER_CONSTANTS.POMODORO_DURATION
+      : TIMER_CONSTANTS.REST_DURATION;
+
   const progress = useMemo(() => {
-    return Math.min(seconds / POMODORO_DURATION, 1);
-  }, [seconds]);
+    return Math.min(seconds / currentDuration, 1);
+  }, [seconds, currentDuration]);
+
+  const progressColor = phase === 'work' ? '#4CAF50' : '#FF9800'; // Green for work, Orange for rest
 
   return (
     <View style={globalStyles.appContainer}>
       <AppHeader />
+
+      <Text
+        style={{
+          color: phase === 'work' ? '#4CAF50' : '#FF9800',
+          fontSize: 18,
+          textAlign: 'center',
+          marginBottom: 20,
+          fontWeight: '600',
+        }}
+      >
+        {phase === 'work' ? 'Work Time' : 'Rest Time'}
+      </Text>
 
       <CircularProgress
         progress={progress}
         size={300}
         strokeWidth={8}
         backgroundColor="#333"
-        progressColor="#4CAF50"
+        progressColor={progressColor}
       >
         <Text style={globalStyles.timer}>{displayTime}</Text>
       </CircularProgress>

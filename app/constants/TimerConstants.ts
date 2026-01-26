@@ -7,4 +7,6 @@ export const TIMER_CONSTANTS = {
   FAB_SIZE: 60,
   FAB_BORDER_RADIUS: 15,
   BUTTON_LONG_PRESS_THRESHOLD: 500,
+  POMODORO_DURATION: 0.5 * 60, // 30 seconds work
+  REST_DURATION: 0.25 * 60, // 15 seconds rest
 } as const;
