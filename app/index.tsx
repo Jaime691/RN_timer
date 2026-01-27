@@ -1,95 +1,79 @@
-import { TIMER_CONSTANTS } from '@/app/constants/TimerConstants';
-import { useTimerSettings } from '@/app/context/TimerContext';
-import { useTimer } from '@/app/hooks/useTimer';
-import { globalStyles } from '@/styles/global-styles';
-import { useMemo, useState } from 'react';
-import { Button, Pressable, Text, View } from 'react-native';
-import AppHeader from './components/header/AppHeader';
-import SettingsScreen from './components/settings/SettingsScreen';
-import CircularProgress from './components/timer/CircularProgress';
-
+import { Moon, Sun } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable, View } from 'react-native';
+import { useTheme } from './components/ThemeProvider';
+import { Timer } from './components/Timer';
+import { TimerSettings } from './components/TimerSettings';
 import './global.css';
 
-export default function Index() {
+function AppContent() {
   const [showSettings, setShowSettings] = useState(false);
-  const { settings } = useTimerSettings();
+  const [workMinutes, setWorkMinutes] = useState(1);
+  const [restMinutes, setRestMinutes] = useState(1);
+  const [cycles, setCycles] = useState(2);
+  const { theme, setTheme } = useTheme();
 
-  const workDurationSeconds =
-    settings.workTime * TIMER_CONSTANTS.SECONDS_PER_MINUTE;
-  const restDurationSeconds =
-    settings.restTime * TIMER_CONSTANTS.SECONDS_PER_MINUTE;
+  const handleSaveSettings = (
+    work: number,
+    rest: number,
+    cycleCount: number,
+  ) => {
+    setWorkMinutes(work);
+    setRestMinutes(rest);
+    setCycles(cycleCount);
+  };
 
-  const { seconds, isActive, toggleTimer, resetTimer, formatTime, phase } =
-    useTimer(0, workDurationSeconds, restDurationSeconds);
-
-  const displayTime = useMemo(() => formatTime(seconds), [seconds, formatTime]);
-
-  const currentDuration =
-    phase === 'work' ? workDurationSeconds : restDurationSeconds;
-
-  const progress = useMemo(() => {
-    return currentDuration > 0 ? Math.min(seconds / currentDuration, 1) : 0;
-  }, [seconds, currentDuration]);
-
-  const progressColor = phase === 'work' ? '#4CAF50' : '#FF9800'; // Green for work, Orange for rest
-
-  if (showSettings) {
-    return <SettingsScreen onClose={() => setShowSettings(false)} />;
-  }
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
-    <View style={globalStyles.appContainer}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: 16,
-          marginBottom: 16,
-        }}
-      >
-        <AppHeader />
-        <Pressable onPress={() => setShowSettings(true)}>
-          <Text style={{ color: 'white', fontSize: 24 }}>⚙️</Text>
-        </Pressable>
+    <View className="size-full flex items-center justify-center bg-background">
+      <View className="w-full h-full flex flex-col">
+        {/* Header */}
+        <View className="text-center pt-8 pb-4 relative">
+          <h1 className="text-3xl font-bold">Focus Timer</h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            Stay productive with work and rest cycles
+          </p>
+          {/* Theme Toggle Button */}
+          <Pressable
+            onPress={toggleTheme}
+            className="absolute top-8 right-8 rounded-full"
+          >
+            {theme === 'dark' ? (
+              <Sun className="size-5" />
+            ) : (
+              <Moon className="size-5" />
+            )}
+          </Pressable>
+        </View>
+
+        {/* Timer Component */}
+        <View className="flex-1 flex items-center justify-center">
+          <Timer
+            workMinutes={workMinutes}
+            restMinutes={restMinutes}
+            cycles={cycles}
+            onSettingsClick={() => setShowSettings(true)}
+          />
+        </View>
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <TimerSettings
+            workMinutes={workMinutes}
+            restMinutes={restMinutes}
+            cycles={cycles}
+            onSave={handleSaveSettings}
+            onClose={() => setShowSettings(false)}
+          />
+        )}
       </View>
-
-      <Text
-        style={{
-          color: phase === 'work' ? '#4CAF50' : '#FF9800',
-          fontSize: 18,
-          textAlign: 'center',
-          marginBottom: 20,
-          fontWeight: '600',
-        }}
-      >
-        {phase === 'work' ? 'Work Time' : 'Rest Time'}
-      </Text>
-
-      <CircularProgress
-        progress={progress}
-        size={300}
-        strokeWidth={8}
-        backgroundColor="#333"
-        progressColor={progressColor}
-      >
-        <Text style={globalStyles.timer}>{displayTime}</Text>
-      </CircularProgress>
-
-      <Pressable onPress={toggleTimer}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 24,
-            textAlign: 'center',
-            marginBottom: 20,
-            marginTop: 40,
-          }}
-        >
-          {isActive ? 'Pause' : 'Start'}
-        </Text>
-      </Pressable>
-      <Button title="Reset" onPress={resetTimer} />
     </View>
   );
+}
+
+export default function App() {
+  return <AppContent />;
 }
