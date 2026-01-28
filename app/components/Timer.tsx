@@ -27,8 +27,8 @@ export function Timer({
   const progress = ((totalTime - timeLeft) / totalTime) * 100;
 
   // Calculate cycle progress - fills after each rest period completes
-  const completedCycles = currentCycle - 1;
-  let cycleProgress = (completedCycles / cycles) * 100;
+  const completedCycles = phase === 'complete' ? cycles : currentCycle - 1;
+  const cycleProgress = (completedCycles / cycles) * 100;
 
   useEffect(() => {
     // Reset when settings change
@@ -85,7 +85,9 @@ export function Timer({
     if (phase === 'work') {
       setPhase('rest');
       setTimeLeft(restMinutes * 60);
-    } else if (phase === 'rest') {
+    }
+
+    if (phase === 'rest') {
       if (currentCycle < cycles) {
         setCurrentCycle((prev) => prev + 1);
         setPhase('work');
@@ -94,7 +96,6 @@ export function Timer({
         setPhase('complete');
         setIsRunning(false);
         setTimeLeft(0);
-        cycleProgress = 100;
       }
     }
   };
