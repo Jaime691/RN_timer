@@ -112,14 +112,14 @@ export default function Timer({
   };
 
   const getCycleProgressStroke = () => {
-    return 'rgb(255, 95, 31)'; // orange-500
+    return 'rgb(255, 42, 0)'; // orange-500
   };
 
   const getStrokeColor = (opacity: boolean = false) => {
     const colors = {
-      work: opacity ? 'rgba(59, 130, 246, 0.2)' : 'rgb(59, 130, 246)', // blue-500
-      rest: opacity ? 'rgba(34, 197, 94, 0.2)' : 'rgb(34, 197, 94)', // green-500
-      complete: opacity ? 'rgba(168, 85, 247, 0.2)' : 'rgb(168, 85, 247)', // purple-500
+      work: opacity ? 'rgba(51, 255, 102, 0.2)' : 'rgb(51, 255, 102)', // blue-500
+      rest: opacity ? 'rgba(204, 255, 51, 0.2)' : 'rgb(204, 255, 51)', // green-500
+      complete: opacity ? 'rgba(204, 51, 255, 0.2)' : 'rgb(204, 51, 255)', // purple-500
     };
     return colors[phase];
   };
@@ -139,7 +139,7 @@ export default function Timer({
       {/* Timer Display with Concentric Circles */}
       <View className="relative w-64 h-64">
         {/* Timer Display with Text - Background Circle */}
-        <View className="absolute inset-0 rounded-full border-6 flex items-center justify-center">
+        <View className="absolute inset-0 rounded-full flex items-center justify-center">
           <Text className="text-6xl font-bold tabular-nums">
             {formatTime(timeLeft)}
           </Text>
@@ -157,44 +157,44 @@ export default function Timer({
             <Circle
               cx="128"
               cy="128"
-              r="105"
+              r="100"
               fill="none"
               stroke={getStrokeColor(true)}
-              strokeWidth="8"
-              strokeDasharray={`${2 * Math.PI * 105}`}
+              strokeWidth="18"
+              strokeDasharray={`${2 * Math.PI * 100}`}
             />
             {/* Progress circle for timer */}
             <Circle
               cx="128"
               cy="128"
-              r="105"
+              r="100"
               fill="none"
               stroke={getStrokeColor(false)}
-              strokeWidth="8"
-              strokeDasharray={`${2 * Math.PI * 105}`}
-              strokeDashoffset={`${2 * Math.PI * 105 * (1 - progress / 100)}`}
+              strokeWidth="18"
+              strokeDasharray={`${2 * Math.PI * 100}`}
+              strokeDashoffset={`${2 * Math.PI * 100 * (1 - progress / 100)}`}
               strokeLinecap="round"
             />
             {/* Background circle for cycles */}
             <Circle
               cx="128"
               cy="128"
-              r="115"
+              r="118"
               fill="none"
               stroke="rgba(234, 179, 8, 0.2)"
-              strokeWidth="8"
-              strokeDasharray={`${2 * Math.PI * 115}`}
+              strokeWidth="18"
+              strokeDasharray={`${2 * Math.PI * 118}`}
             />
             {/* Progress circle for cycles */}
             <Circle
               cx="128"
               cy="128"
-              r="115"
+              r="118"
               fill="none"
               stroke="rgb(234, 179, 8)"
-              strokeWidth="8"
-              strokeDasharray={`${2 * Math.PI * 115}`}
-              strokeDashoffset={`${2 * Math.PI * 115 * (1 - cycleProgress / 100)}`}
+              strokeWidth="18"
+              strokeDasharray={`${2 * Math.PI * 118}`}
+              strokeDashoffset={`${2 * Math.PI * 118 * (1 - cycleProgress / 100)}`}
               strokeLinecap="round"
             />
           </Svg>
