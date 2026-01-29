@@ -1,6 +1,7 @@
 import { Pause, Play, RotateCcw, Settings } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
 interface TimerProps {
   workMinutes: number;
@@ -11,7 +12,7 @@ interface TimerProps {
 
 type TimerPhase = 'work' | 'rest' | 'complete';
 
-export function Timer({
+export default function Timer({
   workMinutes,
   restMinutes,
   cycles,
@@ -60,28 +61,6 @@ export function Timer({
   }, [isRunning, timeLeft]);
 
   const handlePhaseComplete = () => {
-    // Play a beep sound (using Web Audio API)
-    const audioContext = new (
-      window.AudioContext || (window as any).webkitAudioContext
-    )();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
-
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      audioContext.currentTime + 0.5,
-    );
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-
     if (phase === 'work') {
       setPhase('rest');
       setTimeLeft(restMinutes * 60);
@@ -132,113 +111,93 @@ export function Timer({
     return 'Complete!';
   };
 
-  const getProgressColor = () => {
-    if (phase === 'work') return 'bg-blue-500';
-    if (phase === 'rest') return 'bg-green-500';
-    return 'bg-purple-500';
+  const getCycleProgressStroke = () => {
+    return 'rgb(255, 95, 31)'; // orange-500
   };
 
-  const getCycleProgressColor = () => {
-    return 'text-orange-500';
+  const getStrokeColor = (opacity: boolean = false) => {
+    const colors = {
+      work: opacity ? 'rgba(59, 130, 246, 0.2)' : 'rgb(59, 130, 246)', // blue-500
+      rest: opacity ? 'rgba(34, 197, 94, 0.2)' : 'rgb(34, 197, 94)', // green-500
+      complete: opacity ? 'rgba(168, 85, 247, 0.2)' : 'rgb(168, 85, 247)', // purple-500
+    };
+    return colors[phase];
   };
 
   return (
     <View className="flex flex-col items-center justify-center gap-8 px-6 py-8 max-w-md mx-auto">
       {/* Phase Indicator */}
       <View className="text-center space-y-2">
-        <h2 className={`text-xl font-semibold ${getPhaseColor()}`}>
+        <Text className={`text-xl font-semibold ${getPhaseColor()}`}>
           {getPhaseLabel()}
-        </h2>
-        <p className="text-sm text-muted-foreground ">
+        </Text>
+        <Text className="text-sm text-muted-foreground ">
           Cycle {currentCycle} of {cycles}
-        </p>
+        </Text>
       </View>
 
       {/* Timer Display with Concentric Circles */}
-      <View className="relative">
-        <View className="size-64 rounded-full border-8 border-muted flex items-center justify-center">
-          <span className="text-6xl font-bold tabular-nums ">
+      <View className="relative w-72 h-72">
+        {/* Timer Display with Text - Background Circle */}
+        <View className="fixed top-28 inset-0 rounded-full border-6 border-muted flex items-center justify-center">
+          <Text className="text-6xl font-bold tabular-nums">
             {formatTime(timeLeft)}
-          </span>
+          </Text>
         </View>
 
-        {/* Outer Cycle Progress Circle */}
-        <svg
-          className="absolute inset-0 size-64 -rotate-90"
-          style={{
-            transform: 'scale(1.04)',
-            transformOrigin: 'center',
-          }}
+        {/* SVG Progress Circles - Overlaid on top */}
+        <Svg
+          width={256}
+          height={256}
+          viewBox="0 0 256 256"
+          transform="rotate(-90 128 128)"
+          style={{ position: 'absolute', inset: 0 }}
         >
-          {/* Background circle for cycles */}
-          <circle
-            cx="128"
-            cy="128"
-            r="125"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="6"
-            className="text-orange-500/20"
-            strokeDasharray={`${2 * Math.PI * 125}`}
-          />
-          {/* Progress circle for cycles */}
-          <circle
-            cx="128"
-            cy="128"
-            r="125"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="6"
-            className={getCycleProgressColor()}
-            strokeDasharray={`${2 * Math.PI * 125}`}
-            strokeDashoffset={`${2 * Math.PI * 125 * (1 - cycleProgress / 100)}`}
-            strokeLinecap="round"
-            style={{
-              transition: 'stroke-dashoffset 0.5s linear',
-            }}
-          />
-        </svg>
-
-        {/* Inner Timer Progress Circle */}
-        <svg className="absolute inset-0 size-64 -rotate-90">
-          <circle
+          {/* Background circle for timer */}
+          <Circle
             cx="128"
             cy="128"
             r="120"
             fill="none"
-            stroke="currentColor"
+            stroke={getStrokeColor(true)}
             strokeWidth="8"
-            className={
-              phase === 'work'
-                ? 'text-blue-500/20'
-                : phase === 'rest'
-                  ? 'text-green-500/20'
-                  : 'text-purple-500/20'
-            }
             strokeDasharray={`${2 * Math.PI * 120}`}
           />
-          <circle
+          {/* Progress circle for timer */}
+          <Circle
             cx="128"
             cy="128"
             r="120"
             fill="none"
-            stroke="currentColor"
+            stroke={getStrokeColor(false)}
             strokeWidth="8"
-            className={
-              phase === 'work'
-                ? 'text-blue-500'
-                : phase === 'rest'
-                  ? 'text-green-500'
-                  : 'text-purple-500'
-            }
             strokeDasharray={`${2 * Math.PI * 120}`}
             strokeDashoffset={`${2 * Math.PI * 120 * (1 - progress / 100)}`}
             strokeLinecap="round"
-            style={{
-              transition: 'stroke-dashoffset 0.5s linear',
-            }}
           />
-        </svg>
+          {/* Background circle for cycles */}
+          <Circle
+            cx="128"
+            cy="128"
+            r="125"
+            fill="none"
+            stroke="rgba(234, 179, 8, 0.2)"
+            strokeWidth="8"
+            strokeDasharray={`${2 * Math.PI * 125}`}
+          />
+          {/* Progress circle for cycles */}
+          <Circle
+            cx="128"
+            cy="128"
+            r="125"
+            fill="none"
+            stroke="rgb(234, 179, 8)"
+            strokeWidth="8"
+            strokeDasharray={`${2 * Math.PI * 125}`}
+            strokeDashoffset={`${2 * Math.PI * 125 * (1 - cycleProgress / 100)}`}
+            strokeLinecap="round"
+          />
+        </Svg>
       </View>
 
       {/* Controls */}

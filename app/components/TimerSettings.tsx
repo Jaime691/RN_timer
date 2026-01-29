@@ -10,7 +10,7 @@ interface TimerSettingsProps {
   onClose: () => void;
 }
 
-export function TimerSettings({
+export default function TimerSettings({
   workMinutes,
   restMinutes,
   cycles,
@@ -42,7 +42,7 @@ export function TimerSettings({
       <View className="w-full max-w-md p-6 gap-6">
         {/* Header */}
         <View className="flex flex-row items-center justify-between mb-8">
-          <h2 className="text-2xl font-semibold">Timer Settings</h2>
+          <Text className="text-2xl font-semibold">Timer Settings</Text>
           <Pressable onPress={onClose}>
             <X className="size-5" />
           </Pressable>
@@ -59,8 +59,8 @@ export function TimerSettings({
               <Minus className="size-5" />
             </Pressable>
             <View className="flex-1 text-center">
-              <span className="text-4xl font-bold tabular-nums">{work}</span>
-              <span className="text-sm text-muted-foreground ml-2">min</span>
+              <Text className="text-4xl font-bold tabular-nums">{work}</Text>
+              <Text className="text-sm text-muted-foreground ml-2">min</Text>
             </View>
             <Pressable
               onPress={() => adjustValue(work, setWork, 1, 1, 60)}
@@ -94,8 +94,8 @@ export function TimerSettings({
               <Minus className="size-5" />
             </Pressable>
             <View className="flex-1 text-center">
-              <span className="text-4xl font-bold tabular-nums">{rest}</span>
-              <span className="text-sm text-muted-foreground ml-2">min</span>
+              <Text className="text-4xl font-bold tabular-nums">{rest}</Text>
+              <Text className="text-sm text-muted-foreground ml-2">min</Text>
             </View>
             <Pressable
               onPress={() => adjustValue(rest, setRest, 1, 1, 30)}
@@ -129,10 +129,10 @@ export function TimerSettings({
               <Minus className="size-5" />
             </Pressable>
             <View className="flex-1 text-center">
-              <span className="text-4xl font-bold tabular-nums">
+              <Text className="text-4xl font-bold tabular-nums">
                 {cycleCount}
-              </span>
-              <span className="text-sm text-muted-foreground ml-2">cycles</span>
+              </Text>
+              <Text className="text-sm text-muted-foreground ml-2">cycles</Text>
             </View>
             <Pressable
               onPress={() => adjustValue(cycleCount, setCycleCount, 1, 1, 10)}

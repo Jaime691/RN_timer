@@ -1,9 +1,9 @@
 import { Moon, Sun } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useTheme } from './components/ThemeProvider';
-import { Timer } from './components/Timer';
-import { TimerSettings } from './components/TimerSettings';
+import Timer from './components/Timer';
+import TimerSettings from './components/TimerSettings';
 import './global.css';
 
 function AppContent() {
@@ -32,10 +32,10 @@ function AppContent() {
       <View className="w-full h-full flex flex-col">
         {/* Header */}
         <View className="text-center pt-8 pb-4 relative">
-          <h1 className="text-3xl font-bold">Focus Timer</h1>
-          <p className="text-sm text-muted-foreground mt-2">
+          <Text className="text-3xl font-bold">Focus Timer</Text>
+          <Text className="text-sm text-muted-foreground mt-2">
             Stay productive with work and rest cycles
-          </p>
+          </Text>
           {/* Theme Toggle Button */}
           <Pressable
             onPress={toggleTheme}
