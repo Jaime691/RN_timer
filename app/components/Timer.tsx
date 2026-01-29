@@ -137,67 +137,68 @@ export default function Timer({
       </View>
 
       {/* Timer Display with Concentric Circles */}
-      <View className="relative w-72 h-72">
+      <View className="relative w-64 h-64">
         {/* Timer Display with Text - Background Circle */}
-        <View className="fixed top-28 inset-0 rounded-full border-6 border-muted flex items-center justify-center">
+        <View className="absolute inset-0 rounded-full border-6 flex items-center justify-center">
           <Text className="text-6xl font-bold tabular-nums">
             {formatTime(timeLeft)}
           </Text>
         </View>
 
-        {/* SVG Progress Circles - Overlaid on top */}
-        <Svg
-          width={256}
-          height={256}
-          viewBox="0 0 256 256"
-          transform="rotate(-90 128 128)"
-          style={{ position: 'absolute', inset: 0 }}
-        >
-          {/* Background circle for timer */}
-          <Circle
-            cx="128"
-            cy="128"
-            r="120"
-            fill="none"
-            stroke={getStrokeColor(true)}
-            strokeWidth="8"
-            strokeDasharray={`${2 * Math.PI * 120}`}
-          />
-          {/* Progress circle for timer */}
-          <Circle
-            cx="128"
-            cy="128"
-            r="120"
-            fill="none"
-            stroke={getStrokeColor(false)}
-            strokeWidth="8"
-            strokeDasharray={`${2 * Math.PI * 120}`}
-            strokeDashoffset={`${2 * Math.PI * 120 * (1 - progress / 100)}`}
-            strokeLinecap="round"
-          />
-          {/* Background circle for cycles */}
-          <Circle
-            cx="128"
-            cy="128"
-            r="125"
-            fill="none"
-            stroke="rgba(234, 179, 8, 0.2)"
-            strokeWidth="8"
-            strokeDasharray={`${2 * Math.PI * 125}`}
-          />
-          {/* Progress circle for cycles */}
-          <Circle
-            cx="128"
-            cy="128"
-            r="125"
-            fill="none"
-            stroke="rgb(234, 179, 8)"
-            strokeWidth="8"
-            strokeDasharray={`${2 * Math.PI * 125}`}
-            strokeDashoffset={`${2 * Math.PI * 125 * (1 - cycleProgress / 100)}`}
-            strokeLinecap="round"
-          />
-        </Svg>
+        <View className="absolute inset-0 flex items-center justify-center">
+          {/* SVG Progress Circles - Overlaid on top */}
+          <Svg
+            width={256}
+            height={256}
+            viewBox="0 0 256 256"
+            transform="rotate(-90)"
+          >
+            {/* Background circle for timer */}
+            <Circle
+              cx="128"
+              cy="128"
+              r="105"
+              fill="none"
+              stroke={getStrokeColor(true)}
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 105}`}
+            />
+            {/* Progress circle for timer */}
+            <Circle
+              cx="128"
+              cy="128"
+              r="105"
+              fill="none"
+              stroke={getStrokeColor(false)}
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 105}`}
+              strokeDashoffset={`${2 * Math.PI * 105 * (1 - progress / 100)}`}
+              strokeLinecap="round"
+            />
+            {/* Background circle for cycles */}
+            <Circle
+              cx="128"
+              cy="128"
+              r="115"
+              fill="none"
+              stroke="rgba(234, 179, 8, 0.2)"
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 115}`}
+            />
+            {/* Progress circle for cycles */}
+            <Circle
+              cx="128"
+              cy="128"
+              r="115"
+              fill="none"
+              stroke="rgb(234, 179, 8)"
+              strokeWidth="8"
+              strokeDasharray={`${2 * Math.PI * 115}`}
+              strokeDashoffset={`${2 * Math.PI * 115 * (1 - cycleProgress / 100)}`}
+              strokeLinecap="round"
+            />
+          </Svg>
+        </View>
       </View>
 
       {/* Controls */}
