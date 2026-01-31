@@ -127,20 +127,20 @@ export default function Timer({
   return (
     <View className="flex flex-col items-center justify-center gap-8 px-6 py-8 max-w-md mx-auto">
       {/* Phase Indicator */}
-      <View className="text-center space-y-2">
-        <Text className={`text-xl font-semibold ${getPhaseColor()}`}>
+      <View className="flex flex-col items-center">
+        <Text className={`text-3xl font-semibold ${getPhaseColor()}`}>
           {getPhaseLabel()}
         </Text>
-        <Text className="text-sm text-muted-foreground ">
+        <Text className="text-sm text-cyan-50 text-muted-foreground ">
           Cycle {currentCycle} of {cycles}
         </Text>
       </View>
 
       {/* Timer Display with Concentric Circles */}
-      <View className="relative w-64 h-64">
+      <View className="relative w-72 h-72">
         {/* Timer Display with Text - Background Circle */}
         <View className="absolute inset-0 rounded-full flex items-center justify-center">
-          <Text className="text-6xl font-bold tabular-nums">
+          <Text className="text-7xl font-extralight text-white">
             {formatTime(timeLeft)}
           </Text>
         </View>
@@ -148,15 +148,15 @@ export default function Timer({
         <View className="absolute inset-0 flex items-center justify-center">
           {/* SVG Progress Circles - Overlaid on top */}
           <Svg
-            width={256}
-            height={256}
-            viewBox="0 0 256 256"
+            width={288}
+            height={288}
+            viewBox="0 0 288 288"
             transform="rotate(-90)"
           >
             {/* Background circle for timer */}
             <Circle
-              cx="128"
-              cy="128"
+              cx="144"
+              cy="144"
               r="100"
               fill="none"
               stroke={getStrokeColor(true)}
@@ -165,8 +165,8 @@ export default function Timer({
             />
             {/* Progress circle for timer */}
             <Circle
-              cx="128"
-              cy="128"
+              cx="144"
+              cy="144"
               r="100"
               fill="none"
               stroke={getStrokeColor(false)}
@@ -177,8 +177,8 @@ export default function Timer({
             />
             {/* Background circle for cycles */}
             <Circle
-              cx="128"
-              cy="128"
+              cx="144"
+              cy="144"
               r="118"
               fill="none"
               stroke="rgba(234, 179, 8, 0.2)"
@@ -187,8 +187,8 @@ export default function Timer({
             />
             {/* Progress circle for cycles */}
             <Circle
-              cx="128"
-              cy="128"
+              cx="144"
+              cy="144"
               r="118"
               fill="none"
               stroke="rgb(234, 179, 8)"
@@ -202,25 +202,29 @@ export default function Timer({
       </View>
 
       {/* Controls */}
-      <View className="flex flex-row">
+      <View className="flex flex-row ">
         <Pressable
           onPress={handlePlayPause}
           className="rounded-full size-16 items-center justify-center"
           disabled={phase === 'complete' && timeLeft === 0}
         >
-          {isRunning ? <Pause /> : <Play className="size-6" />}
+          {isRunning ? (
+            <Pause color="#FFFFFF" />
+          ) : (
+            <Play color="#FFFFFF" className="size-6 " />
+          )}
         </Pressable>
         <Pressable
           onPress={handleReset}
           className="rounded-full size-16 items-center justify-center"
         >
-          <RotateCcw />
+          <RotateCcw color="#FFFFFF" />
         </Pressable>
         <Pressable
           onPress={onSettingsClick}
           className="rounded-full size-16 items-center justify-center"
         >
-          <Settings />
+          <Settings color="#FFFFFF" />
         </Pressable>
       </View>
     </View>

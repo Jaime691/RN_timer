@@ -42,9 +42,11 @@ export default function TimerSettings({
       <View className="w-full max-w-md p-6 gap-6">
         {/* Header */}
         <View className="flex flex-row items-center justify-between mb-8">
-          <Text className="text-2xl font-semibold">Timer Settings</Text>
+          <Text className="text-2xl font-semibold text-white">
+            Timer Settings
+          </Text>
           <Pressable onPress={onClose}>
-            <X className="size-5" />
+            <X className="size-5" color="#ffffff" />
           </Pressable>
         </View>
 
@@ -160,7 +162,7 @@ export default function TimerSettings({
           onPress={handleSave}
           className="w-full rounded-2xl py-3 border-2 items-center justify-center mt-4"
         >
-          Save Settings
+          <Text className="text-lg font-semibold">Save Settings</Text>
         </Pressable>
       </View>
     </View>

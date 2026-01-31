@@ -1,7 +1,5 @@
-import { Moon, Sun } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { useTheme } from './components/ThemeProvider';
+import { Text, View } from 'react-native';
 import Timer from './components/Timer';
 import TimerSettings from './components/TimerSettings';
 import './global.css';
@@ -11,7 +9,6 @@ function AppContent() {
   const [workMinutes, setWorkMinutes] = useState(1);
   const [restMinutes, setRestMinutes] = useState(1);
   const [cycles, setCycles] = useState(2);
-  const { theme, setTheme } = useTheme();
 
   const handleSaveSettings = (
     work: number,
@@ -23,12 +20,8 @@ function AppContent() {
     setCycles(cycleCount);
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
-    <View className="size-full flex items-center justify-center bg-background">
+    <View className="size-full flex items-center justify-center bg-black">
       <View className="w-full h-full flex flex-col">
         {/* Header */}
         <View className="text-center pt-8 pb-4 relative">
@@ -36,17 +29,6 @@ function AppContent() {
           <Text className="text-sm text-muted-foreground mt-2">
             Stay productive with work and rest cycles
           </Text>
-          {/* Theme Toggle Button */}
-          <Pressable
-            onPress={toggleTheme}
-            className="absolute top-8 right-8 rounded-full"
-          >
-            {theme === 'dark' ? (
-              <Sun className="size-5" />
-            ) : (
-              <Moon className="size-5" />
-            )}
-          </Pressable>
         </View>
 
         {/* Timer Component */}

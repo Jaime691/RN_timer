@@ -5,7 +5,7 @@ const Colors = {
 
   textPrimary: '#FFFFFF',
   textSecondary: '#666666',
-  background: '#000000',
+  background: '#FFFFFF',
 };
 
 export default Colors;

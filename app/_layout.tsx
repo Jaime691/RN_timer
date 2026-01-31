@@ -15,8 +15,7 @@ export default function RootLayout() {
   return (
     <View>
       <Slot />
-
-      <StatusBar style="light" />
+      <StatusBar style="auto" backgroundColor="#FFFFFF" />
     </View>
   );
 }
