@@ -1,29 +1,17 @@
-import { Minus, Plus, X } from 'lucide-react-native';
+import { Minus, Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { useTimerStore } from '../../store/timerStore';
 
-interface TimerSettingsProps {
-  workMinutes: number;
-  restMinutes: number;
-  cycles: number;
-  onSave: (workMinutes: number, restMinutes: number, cycles: number) => void;
-  onClose: () => void;
-}
+export default function TimerSettings() {
+  const { workMinutes, restMinutes, cycles, updateSettings } = useTimerStore();
 
-export default function TimerSettings({
-  workMinutes,
-  restMinutes,
-  cycles,
-  onSave,
-  onClose,
-}: TimerSettingsProps) {
   const [work, setWork] = useState(workMinutes);
   const [rest, setRest] = useState(restMinutes);
   const [cycleCount, setCycleCount] = useState(cycles);
 
   const handleSave = () => {
-    onSave(work, rest, cycleCount);
-    onClose();
+    updateSettings(work, rest, cycleCount);
   };
 
   const adjustValue = (
@@ -38,16 +26,11 @@ export default function TimerSettings({
   };
 
   return (
-    <View className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <View className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <View className="w-full max-w-md p-6 gap-6">
         {/* Header */}
         <View className="flex flex-row items-center justify-between mb-8">
-          <Text className="text-2xl font-semibold text-white">
-            Timer Settings
-          </Text>
-          <Pressable onPress={onClose}>
-            <X className="size-5" color="#ffffff" />
-          </Pressable>
+          <Text className="text-2xl font-semibold">Timer Settings</Text>
         </View>
 
         {/* Work Duration */}

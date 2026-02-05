@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../app/constants/Colors';
-import { TIMER_CONSTANTS } from '../app/constants/TimerConstants';
+import Colors from '../constants/Colors';
 
 export const globalStyles = StyleSheet.create({
   background: {
@@ -16,7 +15,6 @@ export const globalStyles = StyleSheet.create({
   },
 
   timer: {
-    fontSize: TIMER_CONSTANTS.TIMER_FONT_SIZE,
     color: Colors.textPrimary,
     textAlign: 'center',
     marginVertical: 'auto',

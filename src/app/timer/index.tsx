@@ -1,23 +1,15 @@
+import { router } from 'expo-router';
 import { Pause, Play, RotateCcw, Settings } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
-
-interface TimerProps {
-  workMinutes: number;
-  restMinutes: number;
-  cycles: number;
-  onSettingsClick: () => void;
-}
+import { useTimerStore } from '../../store/timerStore';
 
 type TimerPhase = 'work' | 'rest' | 'complete';
 
-export default function Timer({
-  workMinutes,
-  restMinutes,
-  cycles,
-  onSettingsClick,
-}: TimerProps) {
+export default function Timer() {
+  const { workMinutes, restMinutes, cycles } = useTimerStore();
+
   const [isRunning, setIsRunning] = useState(false);
   const [phase, setPhase] = useState<TimerPhase>('work');
   const [currentCycle, setCurrentCycle] = useState(1);
@@ -221,7 +213,7 @@ export default function Timer({
           <RotateCcw color="#FFFFFF" />
         </Pressable>
         <Pressable
-          onPress={onSettingsClick}
+          onPress={() => router.push('/settings')}
           className="rounded-full size-16 items-center justify-center"
         >
           <Settings color="#FFFFFF" />

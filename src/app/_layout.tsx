@@ -13,7 +13,7 @@ export default function RootLayout() {
   }
 
   return (
-    <View>
+    <View className="bg-black flex-1">
       <Slot />
       <StatusBar style="auto" backgroundColor="#FFFFFF" />
     </View>
