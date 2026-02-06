@@ -117,7 +117,7 @@ export default function Timer() {
   };
 
   return (
-    <View className="flex flex-col items-center justify-center gap-8 px-6 py-8 max-w-md mx-auto">
+    <View className="h-full w-full flex items-center gap-12 py-8 bg-black">
       {/* Phase Indicator */}
       <View className="flex flex-col items-center">
         <Text className={`text-3xl font-semibold ${getPhaseColor()}`}>
