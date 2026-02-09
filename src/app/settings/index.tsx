@@ -4,14 +4,25 @@ import { Pressable, Text, View } from 'react-native';
 import { useTimerStore } from '../../store/timerStore';
 
 export default function TimerSettings() {
-  const { workMinutes, restMinutes, cycles, updateSettings } = useTimerStore();
+  const { getCurrentTimer, updateTimer } = useTimerStore();
+
+  const currentTimer = getCurrentTimer();
+  if (!currentTimer) {
+    return null;
+  }
+
+  const { workMinutes, restMinutes, cycles } = currentTimer;
 
   const [work, setWork] = useState(workMinutes);
   const [rest, setRest] = useState(restMinutes);
   const [cycleCount, setCycleCount] = useState(cycles);
 
   const handleSave = () => {
-    updateSettings(work, rest, cycleCount);
+    updateTimer(currentTimer.id, {
+      workMinutes: work,
+      restMinutes: rest,
+      cycles: cycleCount,
+    });
   };
 
   const adjustValue = (

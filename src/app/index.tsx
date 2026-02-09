@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { View } from 'react-native';
-import CustomButton from '../components/CustomButtom/CustomButton';
+import CustomButton from '../components/CustomButton/CustomButton';
 import './global.css';
 
 function AppContent() {
@@ -19,10 +19,10 @@ function AppContent() {
           onPress={() => router.push('/settings')}
         />
         <CustomButton
-          text="Settings link"
+          text="Timers"
           color="tertiary"
           variant="text"
-          onPress={() => router.push('/settings')}
+          onPress={() => router.push('/timers')}
         />
       </View>
     </View>

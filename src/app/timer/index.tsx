@@ -8,7 +8,15 @@ import { useTimerStore } from '../../store/timerStore';
 type TimerPhase = 'work' | 'rest' | 'complete';
 
 export default function Timer() {
-  const { workMinutes, restMinutes, cycles } = useTimerStore();
+  const { getCurrentTimer } = useTimerStore();
+
+  const currentTimer = getCurrentTimer();
+  if (!currentTimer) {
+    router.push('/settings');
+    return null;
+  }
+
+  const { workMinutes, restMinutes, cycles } = currentTimer;
 
   const [isRunning, setIsRunning] = useState(false);
   const [phase, setPhase] = useState<TimerPhase>('work');
