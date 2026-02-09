@@ -12,7 +12,7 @@ export default function Timer() {
 
   const currentTimer = getCurrentTimer();
   if (!currentTimer) {
-    router.push('/settings');
+    router.push('/timers');
     return null;
   }
 

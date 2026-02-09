@@ -51,7 +51,7 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
     })),
   getTimer: (id) => get().timers.find((timer) => timer.id === id),
   clearAllTimers: () => set({ timers: [] }),
-  currentTimerId: '1',
+  currentTimerId: null,
   setCurrentTimer: (id) => set({ currentTimerId: id }),
   getCurrentTimer: () =>
     get().timers.find((timer) => timer.id === get().currentTimerId),
