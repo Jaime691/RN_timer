@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Minus, Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -8,6 +9,7 @@ export default function TimerSettings() {
 
   const currentTimer = getCurrentTimer();
   if (!currentTimer) {
+    router.push('/timers');
     return null;
   }
 
@@ -23,6 +25,7 @@ export default function TimerSettings() {
       restMinutes: rest,
       cycles: cycleCount,
     });
+    router.push('/timer');
   };
 
   const adjustValue = (

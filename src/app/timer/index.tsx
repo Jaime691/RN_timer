@@ -205,7 +205,7 @@ export default function Timer() {
       <View className="flex flex-row ">
         <Pressable
           onPress={handlePlayPause}
-          className="rounded-full size-16 items-center justify-center"
+          className="rounded-full size-16 items-center justify-center active:opacity-70"
           disabled={phase === 'complete' && timeLeft === 0}
         >
           {isRunning ? (
@@ -216,13 +216,13 @@ export default function Timer() {
         </Pressable>
         <Pressable
           onPress={handleReset}
-          className="rounded-full size-16 items-center justify-center"
+          className="rounded-full size-16 items-center justify-center active:opacity-70"
         >
           <RotateCcw color="#FFFFFF" />
         </Pressable>
         <Pressable
           onPress={() => router.push('/settings')}
-          className="rounded-full size-16 items-center justify-center"
+          className="rounded-full size-16 items-center justify-center active:opacity-70"
         >
           <Settings color="#FFFFFF" />
         </Pressable>

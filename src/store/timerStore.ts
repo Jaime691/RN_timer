@@ -31,6 +31,14 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
       restMinutes: 1,
       cycles: 4,
     },
+    {
+      id: '2',
+      createdAt: Date.now(),
+      name: 'Second Timer',
+      workMinutes: 25,
+      restMinutes: 5,
+      cycles: 3,
+    },
   ],
   addTimer: (timer) =>
     set((state) => ({
