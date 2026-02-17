@@ -1,3 +1,4 @@
+import { themeColors } from '@/src/styles/themeColors';
 import { router } from 'expo-router';
 import { Pause, Play, RotateCcw, Settings } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
@@ -11,16 +12,23 @@ export default function Timer() {
   const { getCurrentTimer } = useTimerStore();
 
   const currentTimer = getCurrentTimer();
+
+  const [isRunning, setIsRunning] = useState(false);
+  const [phase, setPhase] = useState<TimerPhase>('work');
+  const [currentCycle, setCurrentCycle] = useState(1);
+
+  useEffect(() => {
+    if (!currentTimer) {
+      router.push('/timers');
+    }
+  }, [currentTimer]);
+
   if (!currentTimer) {
-    router.push('/timers');
     return null;
   }
 
   const { workMinutes, restMinutes, cycles } = currentTimer;
 
-  const [isRunning, setIsRunning] = useState(false);
-  const [phase, setPhase] = useState<TimerPhase>('work');
-  const [currentCycle, setCurrentCycle] = useState(1);
   const [timeLeft, setTimeLeft] = useState(workMinutes * 60);
   const intervalRef = useRef<number | null>(null);
 
@@ -117,9 +125,9 @@ export default function Timer() {
 
   const getStrokeColor = (opacity: boolean = false) => {
     const colors = {
-      work: opacity ? 'rgba(51, 255, 102, 0.2)' : 'rgb(51, 255, 102)', // blue-500
-      rest: opacity ? 'rgba(204, 255, 51, 0.2)' : 'rgb(204, 255, 51)', // green-500
-      complete: opacity ? 'rgba(204, 51, 255, 0.2)' : 'rgb(204, 51, 255)', // purple-500
+      work: opacity ? themeColors.opaqueBlue : themeColors.neonBlue,
+      rest: opacity ? themeColors.opaquePink : themeColors.neonPink,
+      complete: opacity ? themeColors.opaquePurple : themeColors.neonPurple,
     };
     return colors[phase];
   };

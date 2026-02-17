@@ -10,7 +10,7 @@ function AppContent() {
         <CustomButton
           text="Timer"
           color="primary"
-          onPress={() => router.push('/timer')}
+          onPress={() => router.push('/timers')}
         />
         <CustomButton
           text="Settings"
